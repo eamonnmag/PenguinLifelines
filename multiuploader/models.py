@@ -44,3 +44,6 @@ class MultiUploadFolder(models.Model):
 
     files = models.ManyToManyField(MultiuploaderImage)
 
+    def __unicode__(self):
+        return self.user.username + " - " + str(self.submissionTime) + " - (" + str(len(self.files.all())) + " images)"
+
