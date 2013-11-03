@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Penguin Lifelines | News{% endblock %}
+
+{% block content %}
+
+    {% if user.is_superuser %}
+        <a href="/add_news">Add new news item</a>
+    {% endif %}
+
+    {% for newsItem in newsFeed %}
+    {% endfor %}
+
+{% endblock %}

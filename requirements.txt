@@ -1,0 +1,6 @@
+django-registration
+django-profiles
+django-evolution
+django==1.4.2
+xlrd==0.7.3
+django-grappelli

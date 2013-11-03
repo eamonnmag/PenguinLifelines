@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Penguin Lifelines | Log in{% endblock %}
+
+{% block head_additional %}
+    <link rel="stylesheet" href="{{ static_url }}assets/css/registration.css"/>
+{% endblock %}
+
+{% block content %}
+    <div style="width: 400px; margin: auto">
+
+
+        {% if form.errors %}
+            <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
+
+
+        {% block alert %}
+        {% endblock %}
+
+        <div class="section-header">
+            <span class="header-text" style="color: #1AB1D1">Sign in</span>
+        </div>
+        <br/>
+
+        <div id="login" class="login_form registration-container" xmlns="http://www.w3.org/1999/html">
+
+
+            <form accept-charset="UTF-8" action="{% url django.contrib.auth.views.login %}" class="formbody"
+                  id="user_edit"
+                  method="post">
+                {% csrf_token %}
+
+                <input name="utf8" type="hidden" class="text" value="✓"><input
+                    name="_method" type="hidden" value="put"><input name="authenticity_token" type="hidden">
+
+                <div><label for="username">Username</label><br/>
+                    <input id="username" class="text form-text span6" name="username" size="20" type="text"
+                           value="">
+                </div>
+                <br/>
+
+                <div><label for="password">Password</label><br/>
+                    <input id="password" class="text form-text span6" name="password" size="20" type="password">
+                </div>
+                <br/>
+
+
+                <div><input name="commit" type="submit" class="btn btn-info" value="Sign in"></div>
+            </form>
+
+
+        </div>
+        <div class="login-additional span12">
+            <p><a href="{% url auth_password_reset %}" style="color: #F7941E">Forgot</a> your password? <a
+                    href="{% url registration_register %}" style="color: #F7941E">Need an account</a>?</p>
+        </div>
+    </div>
+
+{% endblock %}

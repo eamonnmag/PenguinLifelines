@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Penguin Lifelines | Recent Images{% endblock %}
+
+{% block content %}
+
+    <div class="wrap">
+
+        <div class="container_16">
+            <div class="grid_16">
+                <div class="scenery main-scenery">
+
+                    <div class="tent-info"></div>
+
+                    <div class="camera-info"></div>
+
+                    <div class="about">
+                        <strong>Penguins are declining globally.</strong><br/>
+                        <img src="/site_media/multiuploader/img/front-page/penguin-decline.png" alt="Penguin decline"/><br/><br/>
+                        The main suspects are climate change, fisheries,
+                        disease and pollution, but we need to understand how penguins are affected by these
+                        threats in order to mitigate them.
+                    </div>
+
+                    <div class="about about-smallbore">
+                        Penguins Lifelines is a project run by <a
+                            href="http://www.zoo.ox.ac.uk/group/oceans/people/TH.html" target="_blank">Tom
+                        Hart</a> and is a collaboration
+                        between Oxford University, ZSL, Oceanites, Stony Brook and Woods Hole
+                        Oceanographic Institute, researching the threats to antarctic penguins.
+
+                        <br/><br/>We are using long-term monitoring in the field and
+                        genetic analysis of penguin feathers to get a complete picture of how populations are
+                        changing. <br/><br/>Our findings will be used to inform policy and educate the public on the
+                        impacts of climate change.</span>
+                        <br/><br/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clear"></div>
+            <br/><br/>
+
+            <div class="grid_16">
+
+                <div class="twitter">
+                    <div id="twitter"></div>
+                </div>
+
+            </div>
+            <div class="clear"></div>
+            <br/><br/>
+
+            <div class="grid_8" align="center">
+
+                <a href="adopt-a-colony.html">
+                    <div class="adopt" id="adopt">
+                        <div id="adoptMarksContainer">
+                            <div id="mark8"></div>
+                        </div>
+                    </div>
+
+                </a>
+            </div>
+            <div class="grid_8" align="center">
+                <a href="http://faith.robots.ox.ac.uk:8080/annotator_tom/" target="_blank">
+                    <div class="annotate" id="annotate" onmouseover="animateAnnotateMarks()"
+                         onmouseout="stopAnnotation()">
+                        <div id="marksContainer">
+                            <div id="mark0"></div>
+                            <div id="mark1" class="blueMark"></div>
+                            <div id="mark2" class="blueMark"></div>
+                            <div id="mark3" class="blueMark"></div>
+                            <div id="mark4" class="regularMark"></div>
+                            <div id="mark5" class="regularMark"></div>
+                            <div id="mark6" class="regularMark"></div>
+                            <div id="mark7">
+                                <span class="scoreFledglings">3 Fledglings</span><span
+                                    class="scoreAdults">3 Adults</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+    <script src="/site_media/multiuploader/scripts/jquery-1.6.1.min.js"></script>
+    <script src="/site_media/multiuploader/scripts/jquery.twitter.min.js"></script>
+    <script src="/site_media/multiuploader/scripts/jqueryEasing.js"></script>
+    <script src="/site_media/multiuploader/scripts/functions.js"></script>
+
+{% endblock %}

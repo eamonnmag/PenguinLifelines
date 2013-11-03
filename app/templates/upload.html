@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Penguin Lifelines | Upload{% endblock %}
+
+{% block head_additional %}
+    <style type="text/css">
+        .upload-panel {
+            background-color: #f6f6f6;
+            border: 1px #f1f2f1 solid;
+            padding: 20px;
+            float: left;
+            width: 540px;
+        }
+
+        .menu-panel {
+padding-top: 20px;
+            padding-left: 20px;
+            float: left;
+            width: 250px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+
+    {% load thumbnail %}
+
+
+    <div style="width:800px; margin:auto">
+
+        <div class="upload-panel">
+            <div>
+                <span><i class="glyphicon glyphicon-cloud-upload"></i> <strong>Upload New Files</strong></span>
+            </div>
+            <hr/>
+
+            {% load multiuploader %}
+            {% multiupform %}
+
+        </div>
+    </div>
+
+    <div class="menu-panel">
+
+        <div>
+            <span><i class="glyphicon glyphicon-search"></i> <strong>Browse and Search</strong></span>
+        </div>
+        <hr/>
+        <p>Submit your photographs to Penguin Lifelines. You can also browse uploads and search using location for
+            photographs.</p>
+
+        <div style="float:left" align="center">
+            <a href="/uploads"><img src="/site_media/multiuploader/img/uploads/uploads-search.png" style="float:left"/>
+
+                <div style="float:left;padding-top: 20px; color: #F7941E; font-size:1.1em">Browse Uploads</div>
+            </a>
+        </div>
+        <div class="clearfix"></div>
+        <div style="float:left" align="center">
+            <a href="/photo-search"><img src="/site_media/multiuploader/img/uploads/map-search.png" style="float:left"/>
+
+                <div style="float:left;padding-top: 20px; color: #F7941E; font-size:1.1em">Map Search</div>
+            </a>
+        </div>
+    </div>
+    </div>
+
+
+
+    <div class="clearfix"></div>
+
+
+{% endblock %}

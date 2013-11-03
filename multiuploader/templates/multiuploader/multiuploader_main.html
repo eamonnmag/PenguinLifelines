@@ -1,0 +1,198 @@
+{% load verbatim %}
+<meta charset="utf-8">
+{#<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/base/jquery-ui.css" id="theme">#}
+<link rel="stylesheet" href="{{ static_url }}multiuploader/styles/jquery.fileupload-ui.css">
+
+<p>You can select Multiple files at once using Ctrl(Win) or Command(Mac), or you can
+    drag'n'drop your files on this form.
+</p>
+<br/>
+
+<div id="fileupload">
+    <form action="{% url multi %}" method="POST" name="fileupload-form" onsubmit="JavaScript:beforeSubmit()"
+          enctype="multipart/form-data" role="form"
+          class="form-inline">
+
+        <input type="text" class="form-control" placeholder="Submission Name (optional)" name="name"><br/><br/>
+        <textarea class="form-control" rows="3" placeholder="Description (optional)" name="description"></textarea>
+        <br/><br/>
+
+        <div class="form-group">
+            <label class="sr-only" for="exampleInputEmail2">Latitude</label>
+            <input type="text" class="form-control" name="latitude" placeholder="Latitude">
+        </div>
+        <div class="form-group">
+            <label class="sr-only" for="exampleInputPassword2">Longitude</label>
+            <input type="text" class="form-control" name="longitude" placeholder="Longitude">
+        </div>
+        <div class="form-group">
+            <a class="btn btn-default" onclick="JavaScript:getLocation()"><i
+                    class="glyphicon glyphicon-map-marker"></i> Update</a>
+        </div>
+
+        <input type="hidden" name="current-time" id="current-time">
+
+
+        <br/><br/>
+
+        <div class="fileupload-buttonbar">
+            <label class="fileinput-button btn btn-success">
+                <i class="glyphicon glyphicon-plus"></i> <span>Add files...</span>
+                <input type="file" name="files[]" multiple>
+            </label>
+            <button type="submit" onclick="beforeSubmit()" class="start btn btn-info "><i
+                    class="glyphicon glyphicon-cloud-upload"></i>
+                Start upload
+            </button>
+            <button type="reset" class="cancel btn btn-warning"><i class="glyphicon glyphicon-ban-circle"></i>
+                Cancel
+            </button>
+            <button type="button" class="delete btn btn-danger"><i class="glyphicon glyphicon-trash"></i> Remove
+                files
+            </button>
+        </div>
+
+
+    </form>
+    <div class="fileupload-content">
+        <table class="files"></table>
+        <div class="fileupload-progressbar"></div>
+    </div>
+</div>
+<div id="help" style="color:gray;">
+
+
+    {% verbatim %}
+    <script id="template-upload" type="text/x-jquery-tmpl">
+    <tr class="template-upload{{if error}} ui-state-error{{/if}}">
+        <td class="preview"></td>
+        <td class="name">${name}</td>
+        <td class="size">${sizef}</td>
+        {{if error}}
+            <td class="error" colspan="2">Error:
+                {{if error === 'maxFileSize'}}File is too big
+                {{else error === 'minFileSize'}}File is too small
+                {{else error === 'acceptFileTypes'}}Filetype not allowed
+                {{else error === 'maxNumberOfFiles'}}Max number of files exceeded
+                {{else}}${error}
+                {{/if}}
+            </td>
+        {{else}}
+            <td class="progress"></td>
+            <td class="start"><button class="btn btn-info"><i class="glyphicon glyphicon-cloud-upload"></i>Start</button></td>
+        {{/if}}
+        <td class="cancel"><button class="btn btn-warning"><i class="glyphicon glyphicon-ban-circle"></i> Cancel</button></td>
+    </tr>
+
+
+
+
+
+
+
+    </script>
+
+    <script id="template-download" type="text/x-jquery-tmpl">
+    <tr class="template-download{{if error}} ui-state-error{{/if}}">
+        {{if error}}
+            <td></td>
+            <td class="name">${name}</td>
+            <td class="size">${sizef}</td>
+            <td class="error" colspan="2">Error:
+                {{if error === 1}}File exceeds upload_max_filesize (php.ini directive)
+                {{else error === 2}}File exceeds MAX_FILE_SIZE (HTML form directive)
+                {{else error === 3}}File was only partially uploaded
+                {{else error === 4}}No File was uploaded
+                {{else error === 5}}Missing a temporary folder
+                {{else error === 6}}Failed to write file to disk
+                {{else error === 7}}File upload stopped by extension
+                {{else error === 'maxFileSize'}}File is too big
+                {{else error === 'minFileSize'}}File is too small
+                {{else error === 'acceptFileTypes'}}Filetype not allowed
+                {{else error === 'maxNumberOfFiles'}}Max number of files exceeded
+                {{else error === 'uploadedBytes'}}Uploaded bytes exceed file size
+                {{else error === 'emptyResult'}}Empty file upload result
+                {{else}}${error}
+                {{/if}}
+            </td>
+        {{else}}
+            <td class="preview">
+                {{if thumbnail_url}}
+                    <a href="${url}" target="_blank"><img src="${thumbnail_url}"></a>
+                {{/if}}
+            </td>
+            <td class="name">
+                <a href="${url}"{{if thumbnail_url}} target="_blank"{{/if}}>${name}</a>
+            </td>
+            <td class="size">${sizef}</td>
+            <td colspan="2"></td>
+        {{/if}}
+        <td class="delete">
+            <button data-type="${delete_type}" data-url="${delete_url}" class="btn btn-danger">Delete</button>
+        </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+    </script>
+    {% endverbatim %}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+    <script src="{{ static_url }}multiuploader/scripts/jquery.iframe-transport.js"></script>
+    <script src="{{ static_url }}multiuploader/scripts/jquery.fileupload.js"></script>
+    <script src="{{ static_url }}multiuploader/scripts/jquery.fileupload-ui.js"></script>
+    <script src="{{ static_url }}multiuploader/scripts/application.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            getLocation();
+        });
+
+        var beforeSubmit = function () {
+
+            var currentdate = new Date();
+            var datetime = currentdate.getDate() + "/"
+                    + (currentdate.getMonth() + 1) + "/"
+                    + currentdate.getFullYear() + " @ "
+                    + currentdate.getHours() + ":"
+                    + currentdate.getMinutes() + ":"
+                    + currentdate.getSeconds();
+
+            document.forms["fileupload-form"]["current-time"].value = datetime;
+            return true;
+        }
+
+        function getLocation() {
+            var latitude = document.forms["fileupload-form"]["latitude"].value.toLowerCase();
+            var longitude = document.forms["fileupload-form"]["longitude"].value.toLowerCase();
+
+
+            if (navigator.geolocation) {
+                console.log("Showing position...");
+                navigator.geolocation.getCurrentPosition(showPosition, error);
+                console.log("Position showed...");
+            }
+            else {
+                alert("Geolocation is not supported by this browser, please enter your position manually.");
+            }
+        }
+        function showPosition(position) {
+            document.forms["fileupload-form"]["latitude"].value = position.coords.latitude;
+            document.forms["fileupload-form"]["longitude"].value = position.coords.longitude;
+        }
+
+        function error(msg) {
+            alert(msg.message);
+        }
+
+    </script>
+</div>

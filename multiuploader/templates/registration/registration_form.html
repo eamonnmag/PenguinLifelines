@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Penguin Lifelines | Register{% endblock %}
+
+{% block head_additional %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/registration.css"/>
+{% endblock %}
+
+{% block content %}
+
+    <div class="section-header" style="width: 400px; margin: auto; color: #1AB1D1">
+        <span><i class=".glyphicon .glyphicon-check"></i> <strong>Register for an account</strong></span>
+    </div>
+
+    <div class="clearfix"></div>
+    <br/>
+
+    <div class="registration-container">
+        {% if form.errors %}
+            <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
+
+        <div id="login" class="login_form" xmlns="http://www.w3.org/1999/html">
+
+            {% block alert %}
+            {% endblock %}
+
+            <form accept-charset="UTF-8" action='' class="formbody" id="user_edit" method="post">
+                {% csrf_token %}
+
+                <input name="utf8" type="hidden" class="text" value="✓"><input
+                    name="_method" type="hidden" value="put"><input name="authenticity_token" type="hidden">
+
+                <div><label for="username">Username</label><br/>
+                    <input id="username" class="text form-text" name="username" size="20" type="text" value="">
+                </div>
+                <br/>
+
+                <div><label for="email">Email Address</label><br/>
+                    <input id="email" class="text form-text" name="email" size="20" type="email">
+                </div>
+                <br/>
+
+                <div><label for="password1">Password</label><br/>
+                    <input id="password1" class="text form-text" name="password1" size="20" type="password">
+                </div>
+                <br/>
+
+                <div><label for="password2">Password (confirm)</label><br/>
+                    <input id="password2" class="text form-text" name="password2" size="20" type="password">
+                </div>
+                <br/>
+
+                <div>
+                    <br/>
+                    <input type="submit" class="btn btn-info" value="Register"/>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="login-additional" style="width: 400px; margin: auto;">
+        <p><a href="{% url auth_login %}" style="color:#F7941E">Have</a> an account?
+    </div>
+
+{% endblock %}

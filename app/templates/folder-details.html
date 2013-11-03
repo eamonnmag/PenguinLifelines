@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Penguin Lifelines | Details{% endblock %}
+
+{% block head_additional %}
+    <style type="text/css">
+        .details-panel {
+            width: 240px;
+            margin-right: 20px;
+            float: left;
+
+            background-color: #f6f6f6;
+            border: 1px #f1f2f1 solid;
+            padding: 20px;
+        }
+
+        .image-panel {
+            width: 680px;
+            float: left;
+        }
+
+        .location {
+            color: #F15A29;
+        }
+
+        .recent-item .details {
+            padding: 5px;
+            font-size: 0.8em;
+            font-weight: lighter;
+        }
+
+        .container {
+            width: 1000px;
+            margin: auto;
+        }
+    </style>
+
+{% endblock %}
+{% block content %}
+
+    {% load thumbnail %}
+
+    <div class="container">
+        <div class="details-panel">
+            <strong>Folder Details</strong>
+            <hr/>
+            <p>{{ item.description }}</p><br/>
+
+            <p>Uploaded by <a href="/profile/{{ item.user.username }}">{{ item.user.username }}</a></p>
+            <hr/>
+            <div>
+                <span>{{ human_readable_location }}</span><br/><br/>
+                <span style="color: #404142">Latitude: {{ item.latitude }}</span>
+                <span style="color: #404142">Longitude: {{ item.longitude }} </span>
+                <br/><br/>
+                <img src="{{ satMap }}" class="img-rounded"/>
+                <br/><br/>
+                <img src="{{ hybMap }}" class="img-rounded"/>
+            </div>
+        </div>
+
+        <div class="image-panel">
+            {% for picture in item.files.all %}
+                {% thumbnail picture "150x200" crop="10px 10px" as im %}
+
+                    <div class="recent-item">
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"/>
+
+                        <div class="details">
+                            {{ picture.size }} <span class="pull-right"><a
+                                href="/{{ image_prepender }}/{{ picture.key_data }}">Full Image</a></span>
+                        </div>
+                    </div>
+
+                {% endthumbnail %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
