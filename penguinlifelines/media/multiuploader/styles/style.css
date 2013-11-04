@@ -112,7 +112,7 @@ a:hover {
     top: 0;
     left: 0;
     width: 100%;
-    min-width: 992px;
+    min-width: 1100px;
     z-index: 41;
 }
 
@@ -1091,12 +1091,9 @@ dropdown
 }
 
 .discover #video-archive ul li {
-    *background-color: #e6e6e6;
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f1f2f1));
-    background-image: -webkit-linear-gradient(top, #ffffff, #f1f2f1);
-    background-image: -o-linear-gradient(top, #ffffff, #f1f2f1);
-    background-image: linear-gradient(to bottom, #ffffff, #f1f2f1);
-    background-image: -moz-linear-gradient(top, #ffffff, #f1f2f1);
+    padding-top:6px;
+    background-color: #f6f6f6;
+
 }
 
 .discover li:hover {
