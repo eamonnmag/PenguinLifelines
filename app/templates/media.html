@@ -4,6 +4,56 @@
 
 {% block content %}
 
+    <div class="container_16">
+        <div class="grid_16">
 
+            <div class="discover">
+
+                <div class="explore" align="left">
+                    <a href="/photos" class="inactive"><i class="icon-play-circle"></i> Photos</a>
+                    <a href="/media" class="active"><i class="icon-inbox"></i> Videos</a>
+                    <a href="http://www.youtube.com/channel/UCcwBQB2bt7WZ5G9Dv9pnMVw?feature=watch" class="inactive"><i
+                            class="icon-inbox"></i> YouTube Channel</a>
+                    {% if superuser %}
+                        <a href="/admin/app/mediavideo/add/" class="inactive" target="_blank">Upload more</a>
+                    {% endif %}
+                </div>
+
+                <div id="video-archive">
+                    <ul>
+
+                        {% for video in videos %}
+
+                            <li class="list-view">
+
+                                <div class="date-block">
+                                    <span class="day">{{ video.upload_date|date:"d" }}</span>
+                                    <span class="month">{{ video.upload_date|date:"M" }}</span>
+                                </div>
+
+
+                                <div class="list-content">
+                                    <span class="title">{{ video.name }}</span><br/>
+                                    <span class="date">{{ video.description }}</span>
+                                </div>
+
+                                <div class="archive-player-menu">
+                                    <a href="{{ video.videoURL }}"
+                                       target="_blank" class="button player-button">Play</a>
+                                </div>
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
 
 {% endblock %}

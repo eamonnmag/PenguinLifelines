@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Penguin Lifelines | {{ item.title }}{% endblock %}
+
+{% block content %}
+
+
+    <div class="container_16">
+        <div class="grid_16">
+            {% if user.is_superuser %}
+                <a href="/add_news">Add new news item</a>
+            {% endif %}
+
+            <p style="font-size: 2em; color: #1AB1D1">{{ item.title }}</p>
+
+            <p style="font-size: 1.3em; color:#F7941E">Posted on {{ item.created_date|date:"d M Y" }}</p><br/>
+
+            <p style="font-size: 1.2em">{{ item.content }}</p>
+
+            <br/>
+            <a href="/admin/app/newsitem/1/">Edit</a>
+
+        </div>
+    </div>
+
+{% endblock %}

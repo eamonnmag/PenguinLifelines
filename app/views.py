@@ -3,19 +3,42 @@ import urllib2
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
+from app.models import MediaVideo, MediaPhoto, NewsItem
 from multiuploader.models import MultiUploadFolder
 from penguinlifelines import settings
 
 
 def upload_home(request):
-    return render_to_response('home.html')
+    recent_news = NewsItem.objects.order_by('-created_date')[:1]
+
+    return render_to_response('home.html', {"news": recent_news})
+
 
 def news(request):
-    return render_to_response('news.html')
+    recent_news = NewsItem.objects.order_by('-created_date')
+    return render_to_response('news.html', {"news": recent_news})
+
+
+def news_item(request, newsItemId):
+    newsItem = NewsItem.objects.filter(id=newsItemId)
+
+    item = None
+    if len(newsItem) > 0:
+        item = newsItem.__getitem__(0)
+
+    return render_to_response('newsItem.html', {"item": item})
+
+
+def photos(request):
+    superuser = request.user.is_authenticated and request.user.is_superuser
+    photos = MediaPhoto.objects.all()
+    return render_to_response('photos.html', {"photos": photos, "superuser": superuser})
 
 
 def media(request):
-    return render_to_response('media.html')
+    videos = MediaVideo.objects.all()
+    superuser = request.user.is_superuser
+    return render_to_response('media.html', {"videos": videos, "superuser": superuser})
 
 
 @login_required()

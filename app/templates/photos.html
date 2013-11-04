@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Penguin Lifelines | Media{% endblock %}
+
+{% block content %}
+    <div class="container_16">
+        <div class="grid_16">
+
+
+            <div class="explore" align="left">
+                <a href="/photos" class="active">Photos</a>
+                <a href="/media" class="inactive">Videos</a>
+                {% if superuser %}
+                    <a href="/admin/app/mediaphoto/add/" class="inactive" target="_blank">Upload more</a>
+                {% endif %}
+            </div>
+
+            <div class="clearfix"></div>
+            <ul id="flickrPhotos" class="thumbs">
+
+                {% for photo in photos %}
+                    <li>
+                        <div class="pull-left">
+                            <img src="{{ photo.imageFile.url }}" width="300"/>
+                            <p>Uploaded {{ photo.upload_date|date:"d/M/Y" }} - <a href="{{ photo.imageFile.url }}" target="_blank">View Full Size Image</a>
+                        </div>
+
+                    <div class="pull-left" style="margin-left: 20px">
+                        <p style="color:#1AB1D1; font-size: 1.2em"><strong>{{ photo.name }}</strong></p>
+                        <p style="font-size:0.9em; color:#414241">{{ photo.description }}</p>
+
+
+                    </div>
+                    </li>
+                {% endfor %}
+
+            </ul>
+        </div>
+
+
+    </div>
+
+{% endblock %}
