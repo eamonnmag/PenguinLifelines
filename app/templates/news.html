@@ -11,16 +11,21 @@
                 <a href="/add_news">Add new news item</a>
             {% endif %}
 
-            {% for item in news %}
-                <p style="font-size: 2em; color: #1AB1D1">{{ item.title }}</p>
-                <p style="font-size: 1.3em; color:#F7941E">Posted on {{ item.created_date|date:"d M Y" }}</p><br/>
-                <p style="font-size: 1.2em">{{ item.content }}</p>
+            {% if news|length > 0 %}
+                {% for item in news %}
+                    <p style="font-size: 2em; color: #1AB1D1">{{ item.title }}</p>
+                    <p style="font-size: 1.3em; color:#F7941E">Posted on {{ item.created_date|date:"d M Y" }}</p><br/>
+                    <p style="font-size: 1.2em">{{ item.content }}</p>
 
-                {% if not forloop.last %}
-                    <hr/>
-                {% endif %}
-            {% endfor %}
+                    {% if not forloop.last %}
+                        <hr/>
+                    {% endif %}
+                {% endfor %}
 
+                {% else %}
+                <p>Nothing here yet. Check back soon!</p>
+
+            {% endif %}
 
 
         </div>
