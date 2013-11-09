@@ -13,7 +13,7 @@
         }
 
         .menu-panel {
-padding-top: 20px;
+            padding-top: 20px;
             padding-left: 20px;
             float: left;
             width: 250px;
@@ -60,6 +60,31 @@ padding-top: 20px;
 
                 <div style="float:left;padding-top: 20px; color: #F7941E; font-size:1.1em">Map Search</div>
             </a>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div style="float:left; margin-top: 50px; width: 250px; display:none" class="alert alert-info" align="center"
+             id="uploadStatusContainer">
+            <div>
+                <span><i class="glyphicon glyphicon-search"></i> <strong>Upload Status</strong></span>
+            </div>
+            <br/>
+            <div class="progress" style="height:20px">
+
+                <div class="progress-bar progress-bar-info" id="overallProgress" role="progressbar" aria-valuenow="0"
+                     aria-valuemin="0"
+                     aria-valuemax="100" style="width: 0%">
+                    <span class="sr-only">0% Complete</span>
+                </div>
+            </div>
+
+            <br/>
+
+            <div id="uploadStatus">
+            </div>
+            <div id="folderLink">
+            </div>
         </div>
     </div>
     </div>

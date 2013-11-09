@@ -14,12 +14,12 @@
 
 (function ($) {
     'use strict';
-    
+
     // The UI version extends the basic fileupload widget and adds
     // a complete user interface based on the given upload/download
     // templates.
     $.widget('blueimpUI.fileupload', $.blueimp.fileupload, {
-        
+
         options: {
             // By default, files added to the widget are uploaded as soon
             // as the user clicks on the start buttons. To enable automatic
@@ -34,7 +34,7 @@
             minFileSize: 1,
             // The regular expression for allowed file types, matches
             // against either file type or file name:
-            acceptFileTypes:  /.+$/i,
+            acceptFileTypes: /.+$/i,
             // The regular expression to define for which files a preview
             // image is shown, matched against the file type:
             previewFileTypes: /^image\/(gif|jpeg|png)$/,
@@ -55,7 +55,7 @@
             // The expected data type of the upload response, sets the dataType
             // option of the $.ajax upload requests:
             dataType: 'json',
-            
+
             // The add callback is invoked as soon as files are added to the fileupload
             // widget (via file input selection, drag & drop or add API call).
             // See the basic file upload widget for more information:
@@ -70,7 +70,7 @@
                         $(this).show();
                     }).data('data', data);
                 if ((that.options.autoUpload || data.autoUpload) &&
-                        data.isValidated) {
+                    data.isValidated) {
                     data.jqXHR = data.submit();
                 }
             },
@@ -86,7 +86,7 @@
                     }
                 }
                 if (data.context && data.dataType &&
-                        data.dataType.substr(0, 6) === 'iframe') {
+                    data.dataType.substr(0, 6) === 'iframe') {
                     // Iframe Transport does not support progress events.
                     // In lack of an indeterminate progress bar, we set
                     // the progress to 100%, showing the full animated bar:
@@ -102,7 +102,7 @@
                 if (data.context) {
                     data.context.each(function (index) {
                         var file = ($.isArray(data.result) &&
-                                data.result[index]) || {error: 'emptyResult'};
+                            data.result[index]) || {error: 'emptyResult'};
                         if (file.error) {
                             that._adjustMaxNumberOfFiles(1);
                         }
@@ -168,6 +168,7 @@
                         parseInt(data.loaded / data.total * 100, 10)
                     );
                 }
+
             },
             // Callback for global upload progress events:
             progressall: function (e, data) {
@@ -175,11 +176,25 @@
                     'value',
                     parseInt(data.loaded / data.total * 100, 10)
                 );
+                console.log($("#overallProgress"));
+                $("#overallProgress").css('width', parseInt(data.loaded / data.total * 100, 10) +'%');
+                $("#uploadStatus").html(function() {
+                    if(data.loaded = data.total) {
+                        $(this).html("Upload Complete!")
+                    } else {
+                        $(this).html("Upload in progress!")
+                    }
+                })
             },
             // Callback for uploads start, equivalent to the global ajaxStart event:
             start: function () {
                 $(this).find('.fileupload-progressbar')
                     .progressbar('value', 0).fadeIn();
+                $("#overallProgress").css('width', parseInt(0, 10) +'%');
+
+                $("#uploadStatus").html("Starting upload")
+                $("#folderLink").html("")
+                $('#uploadStatusContainer').fadeIn("slow");
             },
             // Callback for uploads stop, equivalent to the global ajaxStop event:
             stop: function () {
@@ -240,7 +255,7 @@
                     (typeof webkitURL !== undef && webkitURL);
             return urlAPI ? urlAPI.createObjectURL(file) : false;
         },
-        
+
         _revokeObjectURL: function (url) {
             var undef = 'undefined',
                 urlAPI = (typeof window.revokeObjectURL !== undef && window) ||
@@ -253,7 +268,7 @@
         // invokes the callback with a data url:
         _loadFile: function (file, callback) {
             if (typeof FileReader !== 'undefined' &&
-                    FileReader.prototype.readAsDataURL) {
+                FileReader.prototype.readAsDataURL) {
                 var fileReader = new FileReader();
                 fileReader.onload = function (e) {
                     callback(e.target.result);
@@ -272,9 +287,9 @@
                 url,
                 img;
             if (!options || !options.fileTypes ||
-                    options.fileTypes.test(file.type)) {
+                options.fileTypes.test(file.type)) {
                 url = this._createObjectURL(file);
-                img = $('<img>').bind('load', function () {
+                img = $('<img>').bind('load',function () {
                     $(this).unbind('load');
                     that._revokeObjectURL(url);
                     callback(that._scaleImage(img[0], options));
@@ -301,7 +316,8 @@
                         'DownloadURL',
                         [type, name, url].join(':')
                     );
-                } catch (err) {}
+                } catch (err) {
+                }
             });
         },
 
@@ -343,15 +359,15 @@
             // matches against the acceptFileTypes regular expression, as
             // only browsers with support for the File API report the type:
             if (!(this.options.acceptFileTypes.test(file.type) ||
-                    this.options.acceptFileTypes.test(file.name))) {
+                this.options.acceptFileTypes.test(file.name))) {
                 return 'acceptFileTypes';
             }
             if (this.options.maxFileSize &&
-                    file.size > this.options.maxFileSize) {
+                file.size > this.options.maxFileSize) {
                 return 'maxFileSize';
             }
             if (typeof file.size === 'number' &&
-                    file.size < this.options.minFileSize) {
+                file.size < this.options.minFileSize) {
                 return 'minFileSize';
             }
             return null;
@@ -395,8 +411,8 @@
             tmpl.find('.progress div').slice(1).remove().end().first()
                 .progressbar();
             tmpl.find('.start button').slice(
-                this.options.autoUpload ? 0 : 1
-            ).remove().end().first()
+                    this.options.autoUpload ? 0 : 1
+                ).remove().end().first()
                 .button({
                     text: false,
                     icons: {primary: 'ui-icon-circle-arrow-e'}
@@ -437,7 +453,7 @@
                 })
             );
         },
-        
+
         _renderDownload: function (files) {
             var tmpl = this._renderDownloadTemplate(files);
             if (!(tmpl instanceof $)) {
@@ -449,9 +465,14 @@
                 icons: {primary: 'ui-icon-trash'}
             });
             tmpl.find('a').each(this._enableDragToDesktop);
+
+            var htmlToInsert = 'You can view your files <a href="/details?id=' + files[0].folderitem + '">here</a>.';
+            console.log(htmlToInsert);
+            $('#folderLink').html(htmlToInsert);
+
             return tmpl;
         },
-        
+
         _startHandler: function (e) {
             e.preventDefault();
             var tmpl = $(this).closest('.template-upload'),
@@ -461,7 +482,7 @@
                 $(this).fadeOut();
             }
         },
-        
+
         _cancelHandler: function (e) {
             e.preventDefault();
             var tmpl = $(this).closest('.template-upload'),
@@ -473,7 +494,7 @@
                 data.jqXHR.abort();
             }
         },
-        
+
         _deleteHandler: function (e) {
             e.preventDefault();
             var button = $(this);
@@ -484,7 +505,7 @@
                 dataType: e.data.fileupload.options.dataType
             });
         },
-        
+
         _initEventHandlers: function () {
             $.blueimp.fileupload.prototype._initEventHandlers.call(this);
             var filesList = this.element.find('.files'),
@@ -508,7 +529,7 @@
                     this._deleteHandler
                 );
         },
-        
+
         _destroyEventHandlers: function () {
             var filesList = this.element.find('.files');
             filesList.find('.start button')
@@ -550,7 +571,7 @@
                     filesList.find('.delete button').click();
                 });
         },
-        
+
         _destroyFileUploadButtonBar: function () {
             this.element.find('.fileupload-buttonbar')
                 .removeClass('ui-widget-header ui-corner-top');
@@ -587,14 +608,12 @@
         _initTemplates: function () {
             // Handle cases where the templates are defined
             // after the widget library has been included:
-            if (this.options.uploadTemplate instanceof $ &&
-                    !this.options.uploadTemplate.length) {
+            if (this.options.uploadTemplate instanceof $ && !this.options.uploadTemplate.length) {
                 this.options.uploadTemplate = $(
                     this.options.uploadTemplate.selector
                 );
             }
-            if (this.options.downloadTemplate instanceof $ &&
-                    !this.options.downloadTemplate.length) {
+            if (this.options.downloadTemplate instanceof $ && !this.options.downloadTemplate.length) {
                 this.options.downloadTemplate = $(
                     this.options.downloadTemplate.selector
                 );
@@ -612,7 +631,7 @@
             this.element.find('.fileupload-progressbar')
                 .hide().progressbar();
         },
-        
+
         destroy: function () {
             this.element.find('.fileupload-progressbar')
                 .progressbar('destroy');
@@ -622,14 +641,14 @@
             this.element.removeClass('ui-widget');
             $.blueimp.fileupload.prototype.destroy.call(this);
         },
-        
+
         enable: function () {
             $.blueimp.fileupload.prototype.enable.call(this);
             this.element.find(':ui-button').not('.fileinput-button')
                 .button('enable');
             this._enableFileInputButton();
         },
-        
+
         disable: function () {
             this.element.find(':ui-button').not('.fileinput-button')
                 .button('disable');

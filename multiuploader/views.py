@@ -120,7 +120,7 @@ def multiuploader(request):
 
         #generating json response array
         result = []
-        result.append({"name": filename,
+        result.append({"folderitem": folderItem.uniqueIdentifier, "name": filename,
                        "size": file_size,
                        "url": file_url,
                        "thumbnail_url": thumb_url,
