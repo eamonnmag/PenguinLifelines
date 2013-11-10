@@ -176,15 +176,9 @@
                     'value',
                     parseInt(data.loaded / data.total * 100, 10)
                 );
-                console.log($("#overallProgress"));
+
                 $("#overallProgress").css('width', parseInt(data.loaded / data.total * 100, 10) +'%');
-                $("#uploadStatus").html(function() {
-                    if(data.loaded = data.total) {
-                        $(this).html("Upload Complete!")
-                    } else {
-                        $(this).html("Upload in progress!")
-                    }
-                })
+
             },
             // Callback for uploads start, equivalent to the global ajaxStart event:
             start: function () {
@@ -192,7 +186,6 @@
                     .progressbar('value', 0).fadeIn();
                 $("#overallProgress").css('width', parseInt(0, 10) +'%');
 
-                $("#uploadStatus").html("Starting upload")
                 $("#folderLink").html("")
                 $('#uploadStatusContainer').fadeIn("slow");
             },
