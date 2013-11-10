@@ -6,23 +6,36 @@
 
 
     <div class="container_16">
-        <div class="grid_16">
+
+        <div class="grid_16" style="margin-top:30px">
+
+            <ol class="breadcrumb">
+                <li class="active">News</li>
+            </ol>
+
             {% if user.is_superuser %}
-                <a href="/add_news">Add new news item</a>
+                <a href="admin/app/newsitem/add/"><span class="label"><span
+                        class="highlight-blue">Add new news item</span></span></a>
+
             {% endif %}
+
+            <div class="clearfix"></div>
+            <br/>
 
             {% if news|length > 0 %}
                 {% for item in news %}
-                    <p style="font-size: 2em; color: #1AB1D1">{{ item.title }}</p>
-                    <p style="font-size: 1.3em; color:#F7941E">Posted on {{ item.created_date|date:"d M Y" }}</p><br/>
-                    <p style="font-size: 1.2em">{{ item.content }}</p>
+                    <div style="padding: 15px; background-color: #f9f9f9; border-radius: 5px; margin: 5px">
+                        <p style="font-size: 1.5em; color:#414241">{{ item.title }} <span
+                                style="font-size: 0.6em; color:#aaa">Posted on {{ item.created_date|date:"d M Y" }}</span>
+                        </p>
+                        <br/>
+                        <a href="/news/{{ item.id }}" style="font-size: 1.2em; color:#F7941E">Read article</a>
 
-                    {% if not forloop.last %}
-                        <hr/>
-                    {% endif %}
+
+                    </div>
                 {% endfor %}
 
-                {% else %}
+            {% else %}
                 <p>Nothing here yet. Check back soon!</p>
 
             {% endif %}

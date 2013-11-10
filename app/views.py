@@ -13,12 +13,12 @@ from penguinlifelines import settings
 def upload_home(request):
     recent_news = NewsItem.objects.order_by('-created_date')[:1]
 
-    return render_to_response('home.html', {"news": recent_news})
+    return render_to_response('home.html', {"news": recent_news}, context_instance=RequestContext(request))
 
 
 def news(request):
     recent_news = NewsItem.objects.order_by('-created_date')
-    return render_to_response('news.html', {"news": recent_news})
+    return render_to_response('news.html', {"news": recent_news}, context_instance=RequestContext(request))
 
 
 def news_item(request, newsItemId):
@@ -28,19 +28,19 @@ def news_item(request, newsItemId):
     if len(newsItem) > 0:
         item = newsItem.__getitem__(0)
 
-    return render_to_response('newsItem.html', {"item": item})
+    return render_to_response('newsItem.html', {"item": item}, context_instance=RequestContext(request))
 
 
 def photos(request):
     superuser = request.user.is_authenticated and request.user.is_superuser
     photos = MediaPhoto.objects.all()
-    return render_to_response('photos.html', {"photos": photos, "superuser": superuser})
+    return render_to_response('photos.html', {"photos": photos, "superuser": superuser}, context_instance=RequestContext(request))
 
 
 def media(request):
     videos = MediaVideo.objects.all()
     superuser = request.user.is_superuser
-    return render_to_response('media.html', {"videos": videos, "superuser": superuser})
+    return render_to_response('media.html', {"videos": videos, "superuser": superuser}, context_instance=RequestContext(request))
 
 
 @login_required()
@@ -59,7 +59,7 @@ def profile(request):
 
 
 def photo_search(request):
-    return render_to_response('map-search.html')
+    return render_to_response('map-search.html', context_instance=RequestContext(request))
 
 
 def processUploadFolders(items):
@@ -87,7 +87,7 @@ def recent_uploads(request):
     items = MultiUploadFolder.objects.all()
 
     result = processUploadFolders(items)
-    return render_to_response('recent-uploads.html', {'items': result})
+    return render_to_response('recent-uploads.html', {'items': result}, context_instance=RequestContext(request))
 
 
 def folder_details(request):
@@ -108,7 +108,7 @@ def folder_details(request):
     imagePrepender = settings.MULTI_IMAGE_URL
     return render_to_response('folder-details.html', {'item': item, 'satMap': satMapURL, 'hybMap': hybMapURL,
                                                       "human_readable_location": location,
-                                                      'image_prepender': imagePrepender})
+                                                      'image_prepender': imagePrepender}, context_instance=RequestContext(request))
 
 
 def getHumanReadableLocation(latitude, longitude):
@@ -163,7 +163,7 @@ def searchUploads(request):
                      "human_readable_location": location, "user": user, "date": item.submissionTime,
                      "picture": picture, "file_count": len(item.files.all())})
 
-    return render_to_response('recent-uploads.html', {'items': result})
+    return render_to_response('recent-uploads.html', {'items': result}, context_instance=RequestContext(request))
 
 
 def public_profile(request, username):

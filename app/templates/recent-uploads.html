@@ -4,10 +4,10 @@
 
 {% block head_additional %}
     <style>
-    .photos {
-        width: 850px;
-        margin: auto;
-    }
+        .photos {
+            width: 850px;
+            margin: auto;
+        }
     </style>
 
 {% endblock %}
@@ -16,17 +16,22 @@
 
     {% load thumbnail %}
     <div class="photos">
+       <br/>
         {% for item in items %}
             {% thumbnail item.picture "150x200" crop="10px 10px" as im %}
                 <div class="recent-item">
 
                     <div class="top">
-                        <span class="name"><a href="/profile/{{ item.user }}" style="color:#414241; font-size: 0.9em; text-transform: uppercase">{{ item.user }}</a></span><a href="/details?id={{ item.id }}" style="font-size: 0.7em; float: right; color: #F15A29">Details</a>
+                        <span class="name"><a href="/profile/{{ item.user }}"
+                                              style="color:#414241; font-size: 0.9em; text-transform: uppercase">{{ item.user }}</a></span><a
+                            href="/details?id={{ item.id }}" style="font-size: 0.7em; float: right; color: #F15A29">Details</a>
                     </div>
 
                     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"/>
 
-                    <div style="position: absolute; bottom: 20px; right: 0px; padding: 5px; background-color: #F15A29; color: #fff; font-size: 0.7em">{{ item.file_count }} files</div>
+                    <div style="position: absolute; bottom: 20px; right: 0px; padding: 5px; background-color: #F15A29; color: #fff; font-size: 0.7em">{{ item.file_count }}
+                        files
+                    </div>
                     <div style="position: absolute; bottom: 0px; left: 0px; padding: 5px; background-color: #414241; color: #fff; font-size: 0.5em">{{ item.date }}</div>
                     <div style="position: absolute; bottom: 20px; left: 0px; max-width: 90px; padding: 5px; background-color: #27AAE1; color: #fff; font-size: 0.6em">{{ item.human_readable_location }}</div>
                 </div>
