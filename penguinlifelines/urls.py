@@ -11,8 +11,6 @@ urlpatterns = patterns('',
                        (r'^admin/', include(admin.site.urls)),
                        url(r'', include('multiuploader.urls')),
                        url(r'', include('app.urls')),
-
-
 )
 
 from django.conf import settings

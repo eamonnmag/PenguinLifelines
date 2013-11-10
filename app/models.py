@@ -44,3 +44,10 @@ class NewsItem(models.Model):
     def __unicode__(self):
         return self.title
 
+
+class Location(models.Model):
+    latlong = models.CharField(max_length=128)
+    location = models.CharField(max_length=128)
+
+    def __unicode__(self):
+        return self.location

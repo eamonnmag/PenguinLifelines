@@ -13,5 +13,6 @@ urlpatterns = patterns('',
     url(r'^photos$', 'app.views.photos', name='photos'),
     url('^pages/', include('django.contrib.flatpages.urls')),
     url(r'^accounts/profile/', 'app.views.profile', name='profile'),
+    url('^profile/(.+)', 'app.views.public_profile'),
 
 )

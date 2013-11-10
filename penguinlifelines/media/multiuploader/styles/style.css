@@ -86,6 +86,7 @@ a {
 
 a:hover {
     color: #F7941E;
+    text-decoration: none;
 }
 
 .checkedOverlay {

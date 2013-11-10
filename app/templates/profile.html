@@ -1,11 +1,88 @@
 {% extends "base.html" %}
 
 {% block title %}Penguin Lifelines | Profile{% endblock %}
+{% block head_additional %}
+    <style type="text/css">
+        .details-panel {
+            width: 240px;
+            margin-right: 20px;
+            float: left;
 
+            background-color: #f6f6f6;
+            border: 1px #f1f2f1 solid;
+            padding: 20px;
+        }
+
+        .image-panel {
+            width: 680px;
+            float: left;
+        }
+
+        .location {
+            color: #F15A29;
+        }
+
+        .recent-item .details {
+            padding: 5px;
+            font-size: 0.8em;
+            font-weight: lighter;
+        }
+
+        .container {
+            width: 1000px;
+            margin: auto;
+        }
+    </style>
+
+{% endblock %}
 {% block content %}
 
-    <div class="wrap">
-        Hi {{ user.username }}, how's it going?
+
+    <div class="container">
+        <div class="details-panel">
+            <div>
+                <span><i class="glyphicon glyphicon-user"></i> <strong> {{ requested_user.username }}</strong></span>
+                <hr/>
+            </div>
+
+            <p>{{ requested_user.email }}</p>
+
+            {% if requested_user.is_superuser %}
+            <a href="/admin">Admin</a>
+            {% endif %}
+
+            <a href="/accounts/logout">Logout</a>
+
+        </div>
+
+        <div class="image-panel">
+            <div style="padding-top: 20px">
+                <span><i class="glyphicon glyphicon-transfer"></i> <strong> Recent Uploads</strong></span>
+                <hr/>
+            </div>
+            {% load thumbnail %}
+            <div class="photos">
+                {% for item in items %}
+                    {% thumbnail item.picture "150x200" crop="10px 10px" as im %}
+                        <div class="recent-item">
+
+                            <div class="top">
+                                <span class="name"><a href="/profile/{{ item.user }}" style="color:#414241; font-size: 0.9em; text-transform: uppercase">{{ item.user }}</a></span><a href="/details?id={{ item.id }}" style="font-size: 0.7em; float: right; color: #F15A29">Details</a>
+                            </div>
+
+                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"/>
+
+                            <div style="position: absolute; bottom: 20px; right: 0px; padding: 5px; background-color: #F15A29; color: #fff; font-size: 0.7em">{{ item.file_count }}
+                                files
+                            </div>
+                            <div style="position: absolute; bottom: 0px; left: 0px; padding: 5px; background-color: #414241; color: #fff; font-size: 0.5em">{{ item.date }}</div>
+                            <div style="position: absolute; bottom: 20px; left: 0px; max-width: 90px; padding: 5px; background-color: #27AAE1; color: #fff; font-size: 0.6em">{{ item.human_readable_location }}</div>
+                        </div>
+
+                    {% endthumbnail %}
+                {% endfor %}
+            </div>
+        </div>
     </div>
 
 {% endblock %}
